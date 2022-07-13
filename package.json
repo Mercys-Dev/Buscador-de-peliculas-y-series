@@ -1,0 +1,19 @@
+{
+  "name": "buscador-de-peliculas-y-series",
+  "version": "1.0.0",
+  "description": "Proyecto del curso practico de consumo de API REST con Javascript de Platzi",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mercys-Dev/Buscador-de-peliculas-y-series.git"
+  },
+  "author": "Jose Perdomo <Josempr95@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mercys-Dev/Buscador-de-peliculas-y-series/issues"
+  },
+  "homepage": "https://github.com/Mercys-Dev/Buscador-de-peliculas-y-series#readme"
+}
