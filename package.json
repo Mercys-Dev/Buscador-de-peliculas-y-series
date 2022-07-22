@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Mercys-Dev/Buscador-de-peliculas-y-series/issues"
   },
-  "homepage": "https://github.com/Mercys-Dev/Buscador-de-peliculas-y-series#readme"
+  "homepage": "https://github.com/Mercys-Dev/Buscador-de-peliculas-y-series#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
 }
