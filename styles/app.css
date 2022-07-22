@@ -37,6 +37,10 @@ body {
   font-size: 16px;
   margin: 4px 0 0 0;
   padding: 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
 }
 
 h1, h2, h3 {
@@ -131,6 +135,11 @@ button {
 
 /* Header */
 .header-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+
   padding-top: 40px;
 }
 
@@ -159,15 +168,16 @@ button {
   background: linear-gradient(180deg, rgba(238, 204, 117, 0.5) 0%, rgba(238, 204, 117, 0) 72.92%);
 } 
 
-.header-title {
-  margin-bottom: 16px;
-  /* margin-top: 40px; */
-}
+/* .header-title {
+   margin-bottom: 16px; 
+   margin-top: 40px;
+}*/
+
 
 .header-title--categoryView {
   margin-bottom: 16px;
   margin-top: 40px;
-}
+} 
 
 .header-arrow {
   font-weight: var(--font-weight-text2);
@@ -230,7 +240,7 @@ button {
   justify-content: center;
   width: 100%;
   flex-wrap: nowrap;
-  margin: 40px 0;
+  margin-top: 25px;
 }
 
 .header-searchForm input {
@@ -440,10 +450,23 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: auto;
 }
 
 
 /* Navigation */
 .inactive {
   display: none;
+}
+
+.central{
+  margin: 0 auto;
+  max-width: 1150px;
+
+  margin-top: 40px;
+}
+
+.central-header{
+  margin: 0 auto;
+  max-width: 1150px;
 }

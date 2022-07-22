@@ -61,6 +61,7 @@ function homePage(){
     console.log('Home');
 
     headerSection.classList.remove('header-container--long');
+    headerSection.classList.add('central-header');
     headerSection.style.background = '';
     arrowBtn.classList.add('inactive');
     arrowBtn.classList.remove('header-arrow--white');
@@ -71,7 +72,9 @@ function homePage(){
     searchForm.classList.remove('inactive');
 
     trendingPreviewSection.classList.remove('inactive');
+    trendingPreviewSection.classList.add('central');
     categoriesPreviewSection.classList.remove('inactive');
+    categoriesPreviewSection.classList.add('central');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.add('inactive');
     footer.classList.remove('inactive');
@@ -89,6 +92,7 @@ function categoriesPage(){
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
+    headerSection.classList.add('central-header');
     arrowBtn.classList.remove('inactive');
     arrowBtn.classList.add('header-arrow--white');
     boxArrow.classList.remove('box-arrow--keep');
@@ -108,9 +112,17 @@ function categoriesPage(){
 
     const [_, categoryData] = location.hash.split('=') // ['#category', 'id-name']
     const [categoryId, categoryName] = categoryData.split('-');
-
-    headerCategoryTitle.innerHTML = categoryName;
-
+    console.log(categoryName);
+    const [part1, part2] = categoryName.split('%20')
+    console.log(part1);
+    console.log(part2);
+    const name = part1 + ' ' + part2;
+    console.log(name);
+    if(part2 == undefined){
+        headerCategoryTitle.innerHTML = part1;
+    }else{
+        headerCategoryTitle.innerHTML = name;
+    }
 
     getMoviesByCategory(categoryId);
 }
@@ -120,6 +132,7 @@ function movieDetailsPage(){
 
     headerSection.classList.add('header-container--long');
     // headerSection.style.background = '';
+    headerSection.classList.remove('central-header');
     arrowBtn.classList.remove('inactive');
     arrowBtn.classList.add('header-arrow--white');
     boxArrow.classList.add('box-arrow--keep');
@@ -146,6 +159,7 @@ function searchPage(){
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
+    headerSection.classList.add('central-header');
     arrowBtn.classList.remove('inactive');
     arrowBtn.classList.add('header-arrow--white');
     boxArrow.classList.remove('box-arrow--keep');
@@ -170,6 +184,7 @@ function trendsPage(){
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
+    headerSection.classList.add('central-header');
     arrowBtn.classList.remove('inactive');
     arrowBtn.classList.add('header-arrow--white');
     boxArrow.classList.remove('box-arrow--keep');
