@@ -114,7 +114,7 @@ async function getTrendingMovies(){
 }
 
 
-async function getMovieById(id){
+async function getMovieById(id, size){
     const {data: movie} = await api('movie/' + id);
 
     // const movieImgUrl = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
@@ -137,8 +137,13 @@ async function getMovieById(id){
     const movieImg = document.createElement('img');
     movieImg.classList.add('movie-img_header');
     movieImg.setAttribute('alt', movie.title);
-    movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/original/' + movie.backdrop_path);
 
+    if(size == 'backdrop_path'){
+        movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/original/' + movie.backdrop_path);
+    }else{
+        movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/original/' + movie.poster_path);
+
+    }
 
     movieContainer.appendChild(movieImg);
     headerImage.appendChild(movieContainer);

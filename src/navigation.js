@@ -151,7 +151,16 @@ function movieDetailsPage(){
 
     const movieId = decodeURI(location.hash.split("=")[1]); //De esta forma no hay problemas con las peliculas de nombres largos
 
-    getMovieById(movieId);
+     var mediaqueryList = window.matchMedia("(min-width: 767px)");
+     let size_image;
+
+     if(mediaqueryList.matches) {
+         size_image = 'backdrop_path';
+     } else{
+         size_image = 'poster_path';
+     }    
+
+    getMovieById(movieId, size_image);
 }
 
 function searchPage(){
