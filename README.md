@@ -5,4 +5,4 @@ En este proyecto puedes encontrar un buscador de películas con ayuda de la API 
 
 también al seleccionar una película, podrás ver un descripción y calificación de esta sin mencionar categorías y películas relacionadas
 
-Este proyecto es de libre uso para practicar **HTML, CSS **y** Javascript**
+Este proyecto es de libre uso para practicar **HTML, CSS **y** Javascript**, pero recuerda que para poder utilizarlo debes bajarte tu porpia API_KEY de MovieDB agregandola en un archivo secrets.js

@@ -142,7 +142,6 @@ async function getMovieById(id, size){
         movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/original/' + movie.backdrop_path);
     }else{
         movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/original/' + movie.poster_path);
-
     }
 
     movieContainer.appendChild(movieImg);
