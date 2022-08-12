@@ -112,6 +112,8 @@ button {
 
 .movie-container {
   cursor: pointer;
+  display: flex;
+  text-align: center;
 }
 
 .movie-container-header{
@@ -122,6 +124,29 @@ button {
 
 .movie-img {
   border-radius: 8px;
+  min-height: 175px;
+}
+
+.movie-img--category:hover {
+  transform: scale(1.1);
+  transition-duration: .5s;
+}
+
+.movie-img--null{
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  background-color: var(--blue-dark-2);
+  color: var(--purple-light-2);
+}
+
+.movie-img--null::before{
+  position: absolute;
+  padding: 80px 20px 80px 20px;
+  font-weight: bold;
+  font-size: 18px;
+  width: 105px;
+  text-align: center;
 }
 
 .categoriesPreview-list, .categories-list {
