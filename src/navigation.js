@@ -1,3 +1,7 @@
+let page = 1;
+let Maxpage;
+let infiniteScroll;
+
 searchFormBtn.addEventListener('click', () =>{
     location.hash = `#search=${searchFormInput.value}`;
 });
@@ -28,9 +32,15 @@ arrowBtn.addEventListener('click', () =>{
 
 window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
+window.addEventListener('scroll', infiniteScroll, false);
 
 function navigator(){
     console.log({location});
+
+    if (infiniteScroll){
+        window.removeEventListener('scroll', infiniteScroll, {passive: false});
+        infiniteScroll = undefined;
+    }
 
     if (location.hash.startsWith("#trends") 
     || location.hash.startsWith("#search=") 
@@ -55,6 +65,9 @@ function navigator(){
 
     document.documentElement.scrollTop = 0;
 
+    if (infiniteScroll){
+        window.addEventListener('scroll', infiniteScroll, {passive: false})
+    }
 }
 
 function homePage(){
@@ -125,6 +138,9 @@ function categoriesPage(){
     }
 
     getMoviesByCategory(categoryId);
+
+    infiniteScroll = getPaginatedMoviesByCategory(categoryId);
+
 }
 
 function movieDetailsPage(){
@@ -188,6 +204,8 @@ function searchPage(){
     const searchValue = decodeURI(location.hash.split("=")[1]); //De esta forma no hay problemas con las peliculas de nombres largos
     getMoviesBySearch(searchValue);
 
+    infiniteScroll = getPaginatedMoviesBySearch(searchValue);
+
 }
 
 function trendsPage(){
@@ -216,4 +234,5 @@ function trendsPage(){
     headerCategoryTitle.innerHTML = 'Tendencias';
 
     getTrendingMovies();
+    infiniteScroll = getPaginatedTrendingMovies;
 }

@@ -113,10 +113,35 @@ async function getMoviesByCategory(id){
         },
     });
     const movies = data.results;
+    Maxpage = data.total_pages;
+    console.log(Maxpage);
     
     createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: true});
 
     console.log({data, movies});
+}
+
+function getPaginatedMoviesByCategory(id){
+    return async function (){
+        const { scrollTop, scrollHeight, clientHeight } =  document.documentElement
+
+        const scrollisBotton =  scrollTop + clientHeight >= scrollHeight - 15
+        const pageisNoMax = page < Maxpage;
+    
+        if (scrollisBotton && pageisNoMax){
+            page++;
+            const {data} = await api('discover/movie', {
+                params:{
+                    with_genres: id,
+                    page,
+                },
+            });
+            const movies = data.results;
+        
+            createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: false});
+        
+        }
+    }
 }
 
 async function getMoviesBySearch(value){
@@ -126,45 +151,79 @@ async function getMoviesBySearch(value){
         },
     });
     const movies = data.results;
+    Maxpage = data.total_pages;
+    console.log(Maxpage);
+
     
     createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: true});
 
     console.log({data, movies});
+}
+
+function getPaginatedMoviesBySearch(value){
+    return async function (){
+        const { scrollTop, scrollHeight, clientHeight } =  document.documentElement
+
+        const scrollisBotton =  scrollTop + clientHeight >= scrollHeight - 15
+        const pageisNoMax = page < Maxpage;
+    
+        if (scrollisBotton && pageisNoMax){
+            page++;
+            const {data} = await api('search/movie', {
+                params:{
+                    query: value,
+                    page,
+                },
+            });
+            const movies = data.results;
+        
+            createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: false});
+        
+        }
+    }
 }
 
 async function getTrendingMovies(){
     const {data} = await api('trending/movie/day');
     const movies = data.results;
+    Maxpage = data.total_pages;
 
     trendingPreviweMoviesContainer.innerHTML = "";
     
     createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: true});
 
-    const brnLoadMore = document.createElement('button');
-    brnLoadMore.innerText = 'Cargar mas';
-    brnLoadMore.addEventListener('click', getPaginatedTrendingMovies);
-    genericSection.appendChild(brnLoadMore);
+    // const brnLoadMore = document.createElement('button');
+    // brnLoadMore.innerText = 'Cargar mas';
+    // brnLoadMore.addEventListener('click', getPaginatedTrendingMovies);
+    // genericSection.appendChild(brnLoadMore);
 
     console.log({data, movies});
 }
 
-let page = 1;
 
 async function getPaginatedTrendingMovies(){
-    page++;
-    const {data} = await api('trending/movie/day', {
-        params: {
-            page,
-        },
-    });
-    const movies = data.results;
+    const { scrollTop, scrollHeight, clientHeight } =  document.documentElement
 
-    createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: false});
+    const scrollisBotton =  scrollTop + clientHeight >= scrollHeight - 15
+    const pageisNoMax = page < Maxpage;
 
-    const brnLoadMore = document.createElement('button');
-    brnLoadMore.innerText = 'Cargar mas';
-    brnLoadMore.addEventListener('click', getPaginatedTrendingMovies);
-    genericSection.appendChild(brnLoadMore);
+    if (scrollisBotton && pageisNoMax){
+        page++;
+        const {data} = await api('trending/movie/day', {
+            params: {
+                page,
+            },
+        });
+        const movies = data.results;
+    
+        createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: false});
+    
+    }
+
+    // const brnLoadMore = document.createElement('button');
+    // brnLoadMore.innerText = 'Cargar mas';
+    // brnLoadMore.addEventListener('click', getPaginatedTrendingMovies);
+    // genericSection.appendChild(brnLoadMore);
 }
 
 
