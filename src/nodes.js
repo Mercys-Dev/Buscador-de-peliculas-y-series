@@ -6,6 +6,10 @@ const categoriesPreviewSection = document.querySelector('#categoriesPreview');
 const genericSection = document.querySelector('#genericList');
 const movieDetailSection = document.querySelector('#movieDetail');
 const footer = document.querySelector('footer');
+const likedMovieSection = document.querySelector('#liked');
+const languagesSection = document.querySelector('.select_language');
+
+
 
 
 // Lists & Containers
@@ -14,12 +18,14 @@ const trendingPreviweMoviesContainer = document.querySelector('.trendingPreview-
 const previweCategoriesContainer = document.querySelector('.categoriesPreview-list');
 const movieDetailCategoriesList = document.querySelector('#movieDetail .categories-list');
 const relatedMoviesContainer = document.querySelector('.relatedMovies-scrollContainer');
+const likedMoviesContainer = document.querySelector('.liked-movieList')
 
 // Elements
 const headerTitle = document.querySelector('.header-title');
 const arrowBtn = document.querySelector('.header-arrow');
 const boxArrow = document.querySelector('.box-arrow');
 const headerCategoryTitle = document.querySelector('.header-title--categoryView');
+
 
 const searchFormInput = document.querySelector('#searchForm input');
 const searchFormBtn = document.querySelector('#searchBtn');

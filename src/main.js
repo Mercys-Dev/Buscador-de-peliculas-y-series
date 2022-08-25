@@ -1,12 +1,45 @@
+//Data
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
     headers: {
         'Content-Type': 'application/json;charset=utf-8',
     },
     params: {
-        'api_key': API_KEY
+        'api_key': API_KEY,
     }
 });
+
+
+
+function likedMoviesList(){
+    const item = JSON.parse(localStorage.getItem('liked_movies'));
+    let movies;
+
+    if (item){
+        movies = item
+    } else{
+        movies = {}
+    }
+
+    return movies
+}
+
+function likeMovie(movie){
+    const likedMovies = likedMoviesList();
+
+    if (likedMovies[movie.id]){
+        likedMovies[movie.id] = undefined
+        console.log('esta en localstorage')
+    } else{
+        likedMovies[movie.id] = movie;
+        console.log('No esta en el local storage')
+    }
+
+    localStorage.setItem('liked_movies', JSON.stringify(likedMovies))
+
+    getTrendingMoviesPreview();
+    getLikedMovies()
+}
 
 // Helpers
 
@@ -32,9 +65,7 @@ function createMovies(movies, container,
     movies.forEach(movie => {
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie-container');
-        movieContainer.addEventListener('click', () =>{
-            location.hash = '#movie=' + movie.id;
-        })
+
 
         const movieImg = document.createElement('img');
         movieImg.classList.add('movie-img');
@@ -43,7 +74,10 @@ function createMovies(movies, container,
         }
         movieImg.setAttribute('alt', movie.title);
         movieImg.setAttribute(lazyLoad ? 'data-img': 'src', 'https://image.tmdb.org/t/p/w200/' + movie.poster_path);
-        
+        movieImg.addEventListener('click', () =>{
+            location.hash = '#movie=' + movie.id;
+        })
+
         movieImg.addEventListener('error', () => {
             movieImg.classList.add('movie-img--null');
 
@@ -52,11 +86,23 @@ function createMovies(movies, container,
 
         });
 
+        const movieBtn = document.createElement('button');
+        movieBtn.classList.add('movie-btn');
+         if(efects){
+             movieBtn.classList.add('btnBig');
+         }
+        likedMoviesList()[movie.id] && movieBtn.classList.add('movie-btn--liked');
+        movieBtn.addEventListener('click', () => {
+            movieBtn.classList.toggle('movie-btn--liked')
+            likeMovie(movie);
+        });
+
         if(lazyLoad){
             lazyLoader.observe(movieImg);
         }
 
         movieContainer.appendChild(movieImg);
+        movieContainer.appendChild(movieBtn);
         container.appendChild(movieContainer);
     });
 }
@@ -87,7 +133,11 @@ function createCategory(categories, container){
 // Llamados a la API
 
 async function getTrendingMoviesPreview(){
-    const {data} = await api('trending/movie/day');
+    const {data} = await api('trending/movie/day', {
+        params: {
+            language: lang,
+          },
+    });
     const movies = data.results;
 
     trendingPreviweMoviesContainer.innerHTML = "";
@@ -98,7 +148,11 @@ async function getTrendingMoviesPreview(){
 }
 
 async function getCategoriesPreview(){
-    const {data} = await api('genre/movie/list');
+    const {data} = await api('genre/movie/list', {
+        params: {
+            language: lang,
+          },
+    });
     const categories = data.genres;
 
     createCategory(categories, previweCategoriesContainer);
@@ -110,13 +164,14 @@ async function getMoviesByCategory(id){
     const {data} = await api('discover/movie', {
         params:{
             with_genres: id,
+            language: lang,
         },
     });
     const movies = data.results;
     Maxpage = data.total_pages;
     console.log(Maxpage);
     
-    createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: true});
+    createMovies(movies, genericSection, {lazyLoad: true, efects:true, clean: true});
 
     console.log({data, movies});
 }
@@ -134,11 +189,12 @@ function getPaginatedMoviesByCategory(id){
                 params:{
                     with_genres: id,
                     page,
+                    language: lang,
                 },
             });
             const movies = data.results;
         
-            createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: false});
+            createMovies(movies, genericSection, {lazyLoad: true, efects:true, clean: false});
         
         }
     }
@@ -148,6 +204,7 @@ async function getMoviesBySearch(value){
     const {data} = await api('search/movie', {
         params:{
             query: value,
+            language: lang,
         },
     });
     const movies = data.results;
@@ -155,7 +212,7 @@ async function getMoviesBySearch(value){
     console.log(Maxpage);
 
     
-    createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: true});
+    createMovies(movies, genericSection, {lazyLoad: true, efects:true, clean: true});
 
     console.log({data, movies});
 }
@@ -173,24 +230,29 @@ function getPaginatedMoviesBySearch(value){
                 params:{
                     query: value,
                     page,
+                    language: lang,
                 },
             });
             const movies = data.results;
         
-            createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: false});
+            createMovies(movies, genericSection, {lazyLoad: true, efects:true, clean: false});
         
         }
     }
 }
 
 async function getTrendingMovies(){
-    const {data} = await api('trending/movie/day');
+    const {data} = await api('trending/movie/day', {
+        params: {
+            language: lang,
+          },
+    });
     const movies = data.results;
     Maxpage = data.total_pages;
 
     trendingPreviweMoviesContainer.innerHTML = "";
     
-    createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: true});
+    createMovies(movies, genericSection, {lazyLoad: true, efects:true, clean: true});
 
     // const brnLoadMore = document.createElement('button');
     // brnLoadMore.innerText = 'Cargar mas';
@@ -212,11 +274,12 @@ async function getPaginatedTrendingMovies(){
         const {data} = await api('trending/movie/day', {
             params: {
                 page,
+                language: lang,
             },
         });
         const movies = data.results;
     
-        createMovies(movies, genericSection, {lazyLoad: true, efects:false, clean: false});
+        createMovies(movies, genericSection, {lazyLoad: true, efects:true, clean: false});
     
     }
 
@@ -228,7 +291,11 @@ async function getPaginatedTrendingMovies(){
 
 
 async function getMovieById(id, size){
-    const {data: movie} = await api('movie/' + id);
+    const {data: movie} = await api('movie/' + id, {
+        params: {
+            language: lang,
+          },
+    });
 
     // const movieImgUrl = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
     //  console.log(movieImgUrl);
@@ -272,10 +339,38 @@ async function getMovieById(id, size){
 }
 
 async function getRelatedMoviesId(id){
-    const {data} = await api(`movie/${id}/similar`);
+    const {data} = await api(`movie/${id}/similar`, {
+        params: {
+            language: lang,
+          },
+    });
     const relatedMovies = data.results;
 
-    createMovies(relatedMovies, relatedMoviesContainer);
+    createMovies(relatedMovies, relatedMoviesContainer, {lazyLoad: true, efects:false, clean: true});
     relatedMoviesContainer.scroll(0,0);
     
+}
+
+ async function getLanguages() {
+     countries.forEach((country) => {
+
+       const languageOption = document.createElement('option');
+       languageOption.setAttribute('value', country.language );
+       languageOption.setAttribute('for', 'language');
+
+       const languageText = document.createTextNode(country.name);
+       languageOption.appendChild(languageText);
+   
+
+
+       languagesSection.appendChild(languageOption);
+     });
+   };
+
+function getLikedMovies(){
+    const likedMovies = likedMoviesList();
+    const moviesArray = Object.values(likedMovies)
+
+    createMovies(moviesArray, likedMoviesContainer, {lazyLoad: true, efects: false, clean: true})
+
 }
